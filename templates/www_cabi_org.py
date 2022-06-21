@@ -18,6 +18,7 @@ def input_html(no: int, html: str):
     soup = BeautifulSoup(html, 'html.parser')
 
     # No
+    # TODO: ID 만들기
     result.append('TODO MAKE NO')
 
     # Name
@@ -25,6 +26,7 @@ def input_html(no: int, html: str):
     result.append(name.text.strip())
 
     # Url
+    # TODO: URL 만들기
     result.append('TODO MAKE URL')
 
     # Taxonomic Tree
