@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from tools.text_mining import select_rows
+from tools.text_mining import select_rows, get_year_list
 
 
 def set_columns():
@@ -18,14 +18,14 @@ def input_html(no: int, html: str):
     soup = BeautifulSoup(html, 'html.parser')
 
     # No
-    result.append(no)
-
-    # Url
-    result.append(no)
+    result.append('TODO MAKE NO')
 
     # Name
     name = soup.select_one('body > div > div > div > div > div > h3')
     result.append(name.text.strip())
+
+    # Url
+    result.append('TODO MAKE URL')
 
     # Taxonomic Tree
     taxonomic_tree = soup.select('body > div > div > div > div > div > div > div > div > ul > li')
@@ -64,33 +64,33 @@ def input_html(no: int, html: str):
         result.append('N/A')
         result.append('N/A')
 
-    # # Distribute Table
-    # if 'Distribution Table' in html:
-    #     qs = '#todistributionDatabaseTable > div > div > div > table > tbody > tr > td > a'
-    #     ws_new.cell(row=row, column=20, value=';'.join(tm.get_text_all_search(soup, qs, '-', 'n')))
-    # else:
-    #     result.append('N/A')
-    #
-    # # Habitat List
-    # if 'Habitat List' in html:
-    #     qs = '#toenvironments > div > table > tbody > tr > td'
-    #     ws_new.cell(row=row, column=21, value=';'.join(tm.get_table_all(soup, qs, 5, 1)))
-    #     ws_new.cell(row=row, column=22, value=';'.join(tm.get_table_all(soup, qs, 5, 2)))
-    #     ws_new.cell(row=row, column=23, value=';'.join(tm.get_table_all(soup, qs, 5, 3)))
-    #     ws_new.cell(row=row, column=24, value=';'.join(tm.get_table_all(soup, qs, 5, 4)))
-    #
-    # else:
-    #     result.append('N/A')
-    #     result.append('N/A')
-    #     result.append('N/A')
-    #     result.append('N/A')
+    # Distribute Table
+    if 'Distribution Table' in html:
+        dt = soup.select('#todistributionDatabaseTable > div > div > div > table > tbody > tr > td > a')
+        result.append(select_rows(input_list=dt, no_x=8, no_y=1))
+    else:
+        result.append('N/A')
+
+    # Habitat List
+    if 'Habitat List' in html:
+        qs = soup.select('#toenvironments > div > table > tbody > tr > td')
+        result.append(select_rows(input_list=qs, no_x=5, no_y=1))
+        result.append(select_rows(input_list=qs, no_x=5, no_y=2))
+        result.append(select_rows(input_list=qs, no_x=5, no_y=3))
+        result.append(select_rows(input_list=qs, no_x=5, no_y=4))
+
+    else:
+        result.append('N/A')
+        result.append('N/A')
+        result.append('N/A')
+        result.append('N/A')
 
     # Host Plants and Other Plants Affected
     if 'Host Plants and Other Plants Affected' in html:
         hpopa_list = soup.select('#tohostPlants > div > div > table > tbody > tr > td')
-        result += ';'.join(select_rows(input_list=hpopa_list, no_y=1, no_x=4))
-        result += ';'.join(select_rows(input_list=hpopa_list, no_y=2, no_x=4))
-        result += ';'.join(select_rows(input_list=hpopa_list, no_y=3, no_x=4))
+        result.append(select_rows(input_list=hpopa_list, no_y=1, no_x=4))
+        result.append(select_rows(input_list=hpopa_list, no_y=2, no_x=4))
+        result.append(select_rows(input_list=hpopa_list, no_y=3, no_x=4))
 
     else:
         result.append('N/A')
@@ -105,92 +105,74 @@ def input_html(no: int, html: str):
 
     # List of Symptoms/Signs
     if 'List of Symptoms/Signs' in html:
-        list = soup.select('#tosymptomsOrSigns > div > div > table > tbody > tr > td')
-        result += ';'.join(select_rows(input_list=list, no_x=3, no_y=1))
+        lss = soup.select('#tosymptomsOrSigns > div > div > table > tbody > tr > td')
+        result.append(select_rows(input_list=lss, no_x=3, no_y=1))
     else:
         result.append('N/A')
 
-    # # References(Total num)
-    # if 'References' in html:
-    #     qs = '#toreferences > div > p'
-    #     ws_new.cell(row=row, column=30, value=len(tm.get_text_all(soup, qs)))
-    # else:
-    #     result.append('N/A')
-    #
-    # # References(USDA num Kyeaword Search)
-    # if 'References' in html:
-    #     qs = '#toreferences > div > p > a'
-    #     search_text = 'Department of Agriculture'
-    #     ws_new.cell(row=row, column=31, value=len(tm.get_text_all_search(soup, qs, search_text, 'y')))
-    # else:
-    #     result.append('N/A')
-    #
-    # # References(Old New)
-    # if 'References' in html:
-    #
-    #     qs = '#toreferences > div > p'
-    #     year = tm.get_year_cabi(soup, qs)
-    #
-    #     ws_new.cell(row=row, column=32, value=int(min(year)))
-    #     ws_new.cell(row=row, column=33, value=int(max(year)))
-    #
-    # else:
-    #     ws_new.cell(row=row, column=32, value='N/A')
-    #     ws_new.cell(row=row, column=33, value='N/A')
-    #
-    # # Distribution References(num)
-    # if 'Distribution References' in html:
-    #     qs = '#toreferences > div > div > p'
-    #     ws_new.cell(row=row, column=34, value=len(tm.get_text_all(soup, qs)))
-    #
-    # else:
-    #     ws_new.cell(row=row, column=34, value=0)
-    #
-    # # Pathway Causes - Cause
-    # if 'Pathway Causes' in html:
-    #     qs = '#topathwayCauses > div > div > table > tbody > tr > td > a'
-    #     ws_new.cell(row=row, column=35, value=';'.join(tm.get_text_all(soup, qs)))
-    #
-    # else:
-    #     ws_new.cell(row=row, column=35, value='N/A')
-    #
-    # # Pathway Vectors - Vector
-    # if 'Pathway Vectors' in html:
-    #     qs = '#topathwayVectors > div > div > table > tbody > tr > td > a'
-    #     ws_new.cell(row=row, column=36, value=';'.join(tm.get_text_all(soup, qs)))
-    #
-    # else:
-    #     ws_new.cell(row=row, column=36, value='N/A')
-    #
-    # # Impact Summary - Category
-    # if 'Impact Summary' in html:
-    #     impact_summary = soup.select_one('#toimpactSummary > div > div > table > tbody > tr > td')
-    #     result.append(impact_summary.text)
-    #     ws_new.cell(row=row, column=37, value=';'.join(tm.get_table_all(soup, qs, 2, 1)))
-    #
-    # else:
-    #     ws_new.cell(row=row, column=37, value='N/A')
-    print(result)
-    return result
+    # References(Total num)
+    if 'References' in html:
+        qs = soup.select('#toreferences > div > p')
+        result.append(len(qs))
+    else:
+        result.append('N/A')
 
-#
-# def get_year_cabi(soup: soup_object, qs):
-#     year_list = []
-#     result_list = soup.select(qs)
-#
-#     append = year_list.append
-#     for result in result_list:
-#         # 숫자4개 및 문자 1개를 파싱
-#         out_text = re.findall(r'([ ]?\d{4}[a-z]{0,1}[-,\. \d]?)', result.text)
-#
-#         # 정규식에 맞는 문자열이 1개이상 있으면 정제 작업 수행
-#         if len(out_text) > 0:
-#             out_text[0] = re.sub(r'[a-z]?\.?,? ?-?', '', out_text[0])
-#
-#             # 데이터가 2022를 초과하거나 숫자로 5자리 이상이면 스킵
-#             if (len(out_text[0]) > 4) or (int(out_text[0]) > 2022):
-#                 # print('[Not year] ' + out_text[0] + ' : ' + str(result.text))
-#                 continue
-#             append(int(out_text[0]))
-#
-#     return year_list
+    # References(USDA num Kyeaword Search)
+    if 'References' in html:
+        qs = soup.select('#toreferences > div > p > a')
+        search_text = 'Department of Agriculture'
+        count_num = 0
+        for i in qs:
+            if search_text in i.text.strip():
+                count_num += 1
+        result.append(count_num)
+    else:
+        result.append('N/A')
+
+    # References(Old New)
+    if 'References' in html:
+        input_list = []
+        texts = soup.select('#toreferences > div > p')
+        for i in texts:
+            input_list.append(i.text.strip())
+        year = get_year_list(input_list)
+
+        result.append(min(year))
+        result.append(max(year))
+
+    else:
+        result.append('N/A')
+        result.append('N/A')
+
+    # Distribution References(num)
+    if 'Distribution References' in html:
+        qs = soup.select('#toreferences > div > div > p')
+        result.append(len(qs))
+
+    else:
+        result.append('N/A')
+
+    # Pathway Causes - Cause
+    if 'Pathway Causes' in html:
+        qs = soup.select('#topathwayCauses > div > div > table > tbody > tr > td > a')
+        result.append(select_rows(input_list=qs, no_x=5, no_y=1))
+
+    else:
+        result.append('N/A')
+
+    # Pathway Vectors - Vector
+    if 'Pathway Vectors' in html:
+        qs = soup.select('#topathwayVectors > div > div > table > tbody > tr > td')
+        result.append(select_rows(input_list=qs, no_y=1, no_x=5))
+    else:
+        result.append('N/A')
+
+    # Impact Summary - Category
+    if 'Impact Summary' in html:
+        impact_summary = soup.select('#toimpactSummary > div > div > table > tbody > tr > td')
+        result.append(select_rows(input_list=impact_summary, no_x=2, no_y=1))
+
+    else:
+        result.append('N/A')
+
+    return result

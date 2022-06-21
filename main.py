@@ -1,4 +1,5 @@
 import templates.www_cabi_org
+from tools.text_mining import make_output_file
 
 if __name__ == '__main__':
     # print(www_cabi_org.input_html(open(file='./datas/2_https__www_cabi_org_isc_datasheet_2640.txt').read()))
@@ -21,6 +22,9 @@ if __name__ == '__main__':
     # output_file_name = 'Output_Crawling Project_scholar.google.com_8026ea_220622_v1.0.xlsx'
     # make_output_file(output_file_name=output_file_name, col_list=col_list)
 
-    templates.www_cabi_org.input_html(no=1,
-                                      html=open('./datas/2_https__www_cabi_org_isc_datasheet_2640.html', 'r',
-                                                encoding='utf-8').read())
+    body_list = templates.www_cabi_org.input_html(no=1,
+                                                  html=open('./datas/2_https__www_cabi_org_isc_datasheet_2640.html',
+                                                            'r',
+                                                            encoding='utf-8').read())
+
+    make_output_file(output_file_name='test.xlsx', col_list=templates.www_cabi_org.set_columns(), body_list=body_list)

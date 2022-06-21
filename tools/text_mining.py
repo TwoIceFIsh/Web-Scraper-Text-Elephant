@@ -5,6 +5,7 @@ import re
 import time
 
 import requests
+from openpyxl import Workbook
 
 from tools.mailing import sendMail
 
@@ -107,29 +108,15 @@ def data_collect(url_text: str):
         None
 
 
-#
-# def make_output_file(output_file_name: str, col_list: list):
-#     wb = Workbook()
-#     ws = wb.active
-#
-#     # excel file initialisation
-#     ws.append(col_list)
-#     wb.save(filename=output_file_name)
-#
-#     # excel file writelines
-#     for html in enumerate(os.listdir('./datas'), start=1):
-#         print(f'{html[1]} [{html[0]}/{len(os.listdir("./datas"))}]')
-#
-#         try:
-#             f = open('./datas/' + html[1], 'r', encoding='utf-8')
-#             ws.append(template_scholar_google_com(html[0], f.read()))
-#         except:
-#             print('error file : ./datas/' + html[1])
-#             ws.append(template_scholar_google_com(html[0], f.read()))
-#         finally:
-#             wb.save(filename=output_file_name)
-#
-#     wb.close()
+def make_output_file(output_file_name: str, col_list: list, body_list: list):
+    wb = Workbook()
+    ws = wb.active
+
+    # excel file initialisation
+    ws.append(col_list)
+    ws.append(body_list)
+    wb.save(filename=output_file_name)
+    wb.close()
 
 
 def xpath_to_selector(xpath_text: str):
@@ -149,7 +136,24 @@ def xpath_to_selector(xpath_text: str):
 def select_rows(input_list: list, no_x: int, no_y: int):
     result = []
     for i in enumerate(input_list, start=1):
-        if i[0] % no_x == no_y:
-            print(i[1].text.strip())
+        if i[0] % no_x == no_y and '-' not in i[1]:
             result.append(i[1].text.strip())
-    return result
+    return ';'.join(result)
+
+
+def get_year_list(input_list: list):
+    year_list = []
+
+    for text in input_list:
+        # 숫자4개 및 문자 1개를 파싱
+        out_text = re.findall(r'([ ]?\d{4}[a-z]{0,1}[-,\. \d]?)', text)
+
+        # 정규식에 맞는 문자열이 1개이상 있으면 정제 작업 수행
+        if len(out_text) > 0:
+            out_text[0] = re.sub(r'[a-z]?\.?,? ?-?', '', out_text[0])
+
+            # 데이터가 2022를 초과하거나 숫자로 5자리 이상이면 스킵
+            if (len(out_text[0]) <= 4) or (int(out_text[0]) <= 2022):
+                year_list.append(int(out_text[0]))
+
+    return year_list
