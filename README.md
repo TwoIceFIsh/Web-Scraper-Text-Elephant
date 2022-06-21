@@ -1,3 +1,7 @@
-# Scholar_google_220621v
+# Text Mining
 
-TEST sszzs
+**Sequence**
+
+1. Collecting HTMLs
+2. Processing HTMLs
+3. Making Output Files

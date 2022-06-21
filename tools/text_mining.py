@@ -5,10 +5,8 @@ import re
 import time
 
 import requests
-from openpyxl import Workbook
 
-from mail_func import sendMail
-from template_scholar_google_com import template_scholar_google_com
+from tools.mailing import sendMail
 
 
 def get_list_from(name_list_file):
@@ -109,25 +107,49 @@ def data_collect(url_text: str):
         None
 
 
-def make_output_file(output_file_name: str, col_list: list):
-    wb = Workbook()
-    ws = wb.active
+#
+# def make_output_file(output_file_name: str, col_list: list):
+#     wb = Workbook()
+#     ws = wb.active
+#
+#     # excel file initialisation
+#     ws.append(col_list)
+#     wb.save(filename=output_file_name)
+#
+#     # excel file writelines
+#     for html in enumerate(os.listdir('./datas'), start=1):
+#         print(f'{html[1]} [{html[0]}/{len(os.listdir("./datas"))}]')
+#
+#         try:
+#             f = open('./datas/' + html[1], 'r', encoding='utf-8')
+#             ws.append(template_scholar_google_com(html[0], f.read()))
+#         except:
+#             print('error file : ./datas/' + html[1])
+#             ws.append(template_scholar_google_com(html[0], f.read()))
+#         finally:
+#             wb.save(filename=output_file_name)
+#
+#     wb.close()
 
-    # excel file initialisation
-    ws.append(col_list)
-    wb.save(filename=output_file_name)
 
-    # excel file writelines
-    for html in enumerate(os.listdir('./datas'), start=1):
-        print(f'{html[1]} [{html[0]}/{len(os.listdir("./datas"))}]')
- 
-        try:
-            f = open('./datas/' + html[1], 'r', encoding='utf-8')
-            ws.append(template_scholar_google_com(html[0], f.read()))
-        except:
-            print('error file : ./datas/' + html[1])
-            ws.append(template_scholar_google_com(html[0], f.read()))
-        finally:
-            wb.save(filename=output_file_name)
+def xpath_to_selector(xpath_text: str):
+    xpath_list = xpath_text.split('/')
+    result = ''
+    for i in xpath_list:
+        if len(i) > 0:
+            x = re.sub(r'\[.*\]', '', i)
+            if xpath_list[len(xpath_list) - 1] == i:
 
-    wb.close()
+                result += x
+            else:
+                result += x + ' > '
+    return result
+
+
+def select_rows(input_list: list, no_x: int, no_y: int):
+    result = []
+    for i in enumerate(input_list, start=1):
+        if i[0] % no_x == no_y:
+            print(i[1].text.strip())
+            result.append(i[1].text.strip())
+    return result

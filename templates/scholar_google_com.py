@@ -3,15 +3,21 @@ import re
 from bs4 import BeautifulSoup
 
 
-def template_scholar_google_com(no: int, html: str):
+def set_columns():
+    return ['No', 'Name', 'scholar URL', 'Reference(Oldest)', 'Reference(Newest)', 'Cited Total Num',
+            'Search Count Num']
+
+
+def input_html(no: int, html: str):
     """
     template_scholar_google_com
+    :param no:
     :param html:
     :return:
     """
     result = []
     soup = BeautifulSoup(html, 'html.parser')
-
+ 
     # data [no]
     result.append(no)
 
