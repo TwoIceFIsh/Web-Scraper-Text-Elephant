@@ -1,30 +1,35 @@
-import templates.www_cabi_org
-from tools.text_mining import make_output_file
+from core.ini import *
+from core.menu import *
+from core.start import banner
+# Show banner
+from database.crud import create_db
 
-if __name__ == '__main__':
-    # print(www_cabi_org.input_html(open(file='./datas/2_https__www_cabi_org_isc_datasheet_2640.txt').read()))
+create_db()
 
-    # start_time = time.time()
-    # now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+# Check config file
+if os.path.isfile('./Settings.ini') is False:
+    config_generator()
+else:
+    # TODO: check config file
+    print('#TODO: check config file')
 
-    # Data Collecting
-    # collect_html_from(
-    #     add_prefix(name_list=get_list_from('./name_list.txt'),
-    #                prefix='https://scholar.google.com/scholar?hl=en&as_vis=0&as_sdt=0%2C5&q=',
-    #                prefix2=8026))
-    #
-    # sendMail(title_text=f'[수집완료] ', body_text='수집완료 Done',
-    #          to_ad='team.k0konutz@gmail.com')
+while True:
+    clear_console()
+    banner()
+    print_menu(menu_options)
+    option = ''
+    try:
+        option = int(input('Enter your choice: '))
+    except:
+        print('Wrong input. Please enter a number ...')
 
-    # Data Proccessing
-    # col_list = ['No', 'Name', 'scholar URL', 'Reference(Oldest)', 'Reference(Newest)', 'Cited Total Num',
-    #             'Search Count Num']
-    # output_file_name = 'Output_Crawling Project_scholar.google.com_8026ea_220622_v1.0.xlsx'
-    # make_output_file(output_file_name=output_file_name, col_list=col_list)
-
-    body_list = templates.www_cabi_org.input_html(no=1,
-                                                  html=open('./datas/2_https__www_cabi_org_isc_datasheet_2640.html',
-                                                            'r',
-                                                            encoding='utf-8').read())
-
-    make_output_file(output_file_name='test.xlsx', col_list=templates.www_cabi_org.set_columns(), body_list=body_list)
+    if option == 1:
+ 
+        option1()
+    elif option == 2:
+        print_menu(run_options)
+    elif option == 3:
+        print('Thanks message before exiting')
+        exit()
+    else:
+        print('Invalid option. Please enter a number between 1 and 4.')

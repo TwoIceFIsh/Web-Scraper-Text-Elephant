@@ -27,12 +27,12 @@ def add_prefix(name_list: list, prefix: str, prefix2: int):
     return result
 
 
-def time_m(a_total_num: int, elapsed_sec: float):
-    return round(float(float(a_total_num) - len(os.listdir("./datas"))) * elapsed_sec / 60, 1)
+def time_m(a_total_num: int, per_sec: float):
+    return round(float(float(a_total_num) - len(os.listdir("./datas"))) * per_sec / 60, 1)
 
 
-def time_h(a_total_num: int, elapsed_sec: float):
-    return round(float(float(a_total_num) - len(os.listdir("./datas"))) * elapsed_sec / 60 / 60, 1)
+def time_h(a_total_num: int, per_sec: float):
+    return round(float(float(a_total_num) - len(os.listdir("./datas"))) * per_sec / 60 / 60, 1)
 
 
 def collect_html_from(url_list: list):
@@ -87,7 +87,7 @@ def data_collect(url_text: str):
             f2.write(response.text.strip())
             f2.close()
             print(
-                f'[{str(now)} > {str(round(time.time() - start_time2, 1))}s] Collected [{str(len(os.listdir("./datas")))}/{str(a_total_num)}] -{time_m(a_total_num=int(a_total_num), elapsed_sec=4)}m({time_h(a_total_num=int(a_total_num), elapsed_sec=4)}h)  Url : {str(a_no)} {a_url}')
+                f'[{str(now)} > {str(round(time.time() - start_time2, 1))}s] Collected [{str(len(os.listdir("./datas")))}/{str(a_total_num)}] -{time_m(a_total_num=int(a_total_num), per_sec=4)}m({time_h(a_total_num=int(a_total_num), per_sec=4)}h)  Url : {str(a_no)} {a_url}')
             if len(os.listdir("./datas")) % 100 == 0:
                 sendMail(title_text=f'[진행상황] [{str(len(os.listdir("./datas")))}/{str(a_total_num)}] ',
                          body_text='COLLECTED',
