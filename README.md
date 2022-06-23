@@ -1,4 +1,6 @@
-# Text Mining
+# Text Mining 1.0v
+
+![img.png](img.png)
 
 **Sequence**
 
