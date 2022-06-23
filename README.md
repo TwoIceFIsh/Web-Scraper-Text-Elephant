@@ -1,17 +1,17 @@
-# Text Mining 🛠
+# Text Elephant 🛠
+
+* Web Scrapper
 
 ⏳ Program development in progressing ⏳
 
-![img.png](img.png)
+![img_1.png](img_1.png)
 
-**Sequence**
+Function
 
-A. Function
-Collecting Data from HTML
-
-1. Collecting HTMLs
-2. Processing HTMLs
-3. Making Output Files
+- Web Scrapping
+    1. Collecting HTML files
+    2. Extracting data from HTML files
+    3. Writing reports
 
 ⏳ Program development in progressing ⏳
 
