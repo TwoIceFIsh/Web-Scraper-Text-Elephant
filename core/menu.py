@@ -1,9 +1,5 @@
-import os
-
-from colorama import Fore
-
-from core.start import banner
-from database.crud import db_select
+from core.console import next_page
+from database.crud import do_sql
 
 menu_options = {
     1: 'Settings',
@@ -31,34 +27,17 @@ def print_menu(menu: dict):
         print(key, '--', menu[key])
 
 
-def option1():
-    db_select(query='select * from template_list', concat=0)
+def set_template():
+    next_page()
+    for i in do_sql(query_text='select * from template_list'):
+        print(f'{i}\n')
     value = input('Select template : ')
+    column_data = 'Template'
+    datas = (value, column_data)
+    if type(int(value)) == type(1):
+        pass
+        # do_sql(query_text="update settings SET value=? where key=?")
+        # do_sql(query_text=f'update settings set value={str(value)} where key={column_data}')
 
-
-def option2():
-    db_select(query='select * from template_list', concat=0)
-    value = input('Select template : ')
-
-
-def option3():
-    db_select(query='select * from template_list', concat=0)
-    value = input('Select template : ')
-
-
-def clear_console():
-    command = 'clear'
-    if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
-        command = 'cls'
-    os.system(command)
-
-
-def status_bar():
-    print(f"{db_select(query='select * from settings', concat=1)}")
-    print(f'{Fore.YELLOW} ========================================================================')
-
-
-def next_page():
-    clear_console()
-    banner()
-    status_bar()
+    else:
+        print('Select Num')
