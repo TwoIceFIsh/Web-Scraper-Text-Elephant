@@ -24,12 +24,13 @@ while True:
         print('Wrong input. Please enter a number ...')
 
     if option == 1:
- 
+
         option1()
     elif option == 2:
         print_menu(run_options)
     elif option == 3:
         print('Thanks message before exiting')
         exit()
+        clear_console()
     else:
         print('Invalid option. Please enter a number between 1 and 4.')

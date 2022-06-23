@@ -1,12 +1,14 @@
 import os
 
+from core.start import banner
 from database.crud import db_select
 
 menu_options = {
     1: 'Settings',
     2: 'Run',
+    3: 'Exit'
 }
- 
+
 run_options = {
     1: 'Settings',
     2: 'Collecting Datas',
@@ -21,6 +23,8 @@ def print_menu(menu: dict):
 
 
 def option1():
+    clear_console()
+    banner()
     db_select('select * from template_list')
     value = input('Select template : ')
 
