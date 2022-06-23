@@ -4,7 +4,7 @@
 
 ⏳ Program development in progressing ⏳
 
-![img_1.png](img_1.png)
+![img.png](img.png)
 
 Function
 
