@@ -1,7 +1,5 @@
 import os
 
-from colorama import Fore
-
 from core.start import banner
 from database.crud import db_select
 
@@ -52,7 +50,7 @@ def clear_console():
 
 
 def status_bar():
-    print(f"Settings {db_select(query='select * from settings', concat=1)} {Fore.YELLOW}")
+    print(f"{db_select(query='select * from settings', concat=1)}")
 
 
 def next_page():
