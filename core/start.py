@@ -10,5 +10,4 @@ def banner():
    ██║   ███████╗██╔╝ ██╗   ██║       ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚████║╚██████╔╝
    ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝       ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ 
                                                                                            
-Made with {Fore.RED}♥{Fore.GREEN} by Aiden Lee(@Twoicefish) {Fore.CYAN}
-''')
+Made with {Fore.RED}♥{Fore.GREEN} by Aiden Lee(@Twoicefish) {Fore.CYAN}''')

@@ -1,6 +1,5 @@
 from core.ini import *
 from core.menu import *
-from core.start import banner
 # Show banner
 from database.crud import create_db
 
@@ -14,8 +13,7 @@ else:
     print('#TODO: check config file')
 
 while True:
-    clear_console()
-    banner()
+    next_page()
     print_menu(menu_options)
     option = ''
     try:
@@ -29,8 +27,8 @@ while True:
     elif option == 2:
         print_menu(run_options)
     elif option == 3:
-        print('Thanks message before exiting')
-        exit()
         clear_console()
+        exit()
+
     else:
         print('Invalid option. Please enter a number between 1 and 4.')
