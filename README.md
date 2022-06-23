@@ -1,6 +1,6 @@
 # Text Elephant 🛠
 
-* Web Scrapper
+* Web Scraper
 
 ⏳ Program development in progressing ⏳
 
@@ -8,7 +8,7 @@
 
 Function
 
-- Web Scrapping
+- Web Scraping
     1. Collecting HTML files
     2. Extracting data from HTML files
     3. Writing reports
