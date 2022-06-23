@@ -1,5 +1,7 @@
 import os
 
+from colorama import Fore
+
 from core.start import banner
 from database.crud import db_select
 
@@ -35,11 +37,13 @@ def option1():
 
 
 def option2():
-    print('Handle option \'Option 2\'')
+    db_select(query='select * from template_list', concat=0)
+    value = input('Select template : ')
 
 
 def option3():
-    print('Handle option \'Option 3\'')
+    db_select(query='select * from template_list', concat=0)
+    value = input('Select template : ')
 
 
 def clear_console():
@@ -51,6 +55,7 @@ def clear_console():
 
 def status_bar():
     print(f"{db_select(query='select * from settings', concat=1)}")
+    print(f'{Fore.YELLOW} ========================================================================')
 
 
 def next_page():
