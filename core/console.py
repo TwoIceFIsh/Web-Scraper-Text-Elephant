@@ -5,7 +5,16 @@ from colorama import Fore
 from core.banner import banner
 from database.crud import do_sql
 
-command_list = ['exit', 'help', 'show', 'back']
+
+def edit(command_line: str):
+    command_line_list = command_line.split()
+
+    if len(command_line_list) == 2:
+        pass
+    if len(command_line_list) == 3:
+        pass
+
+    pass
 
 
 def command():
@@ -27,7 +36,11 @@ def command():
                 continue
 
             if a_command == 'help' or a_command == 'h':
-                help()
+                main_help()
+                continue
+
+            if a_command == 'edit':
+                edit(command_line)
                 continue
 
             else:
@@ -39,10 +52,11 @@ def command():
 
 
 def show_help():
-    print(f'{Fore.BLACK}ex. show 1 / show templates')
-    print(f'{Fore.RED}%-5s%-20s%-30s' % ('no', 'commands', 'text'))
-    print(f'{Fore.GREEN}%-5s{Fore.YELLOW}%-20s{Fore.BLUE}%-30s' % ('1', 'show templates', 'show templates'))
-    print(f'{Fore.GREEN}%-5s{Fore.YELLOW}%-20s{Fore.BLUE}%-30s' % ('2', 'show settings', 'show settings'))
+    __format = f'{Fore.GREEN}%-5s{Fore.YELLOW}%-10s{Fore.BLUE}%-30s{Fore.BLUE}%-30s'
+    print(f'[{Fore.BLACK}ex. show -t 1, show --settings]')
+    print(f'{Fore.RED}%-5s%-10s%-30s%-30s' % ('no', 'commands', 'args', 'text'))
+    print(__format % ('1', 'show', '-t, --templates, [n]', 'show templates'))
+    print(__format % ('2', 'show ', '-s, --settings', 'show settings'))
 
 
 def show_template(template: list):
@@ -57,27 +71,42 @@ def show_template(template: list):
 
 def show(command_line: str):
     try:
-        args = command_line.split()[1]
-        if args == 'templates' or args == '1':
 
-            lists = do_sql('select * from template_list')
-            for i in lists:
-                print(f'[{i[0]}] {i[1]}')
+        command_line_list = command_line.split()
+        args = command_line_list[1]
+        if len(command_line_list) == 2:
 
-            try:
-                command_line = input(f'\n{Fore.RED}Select Template Number >> {Fore.GREEN}')
-                selected_name = do_sql(f'select * from template_list where no ={int(command_line)}')
+            if args == '--templates' or args == '-t':
+
+                lists = do_sql('select * from template_list')
+                for i in lists:
+                    print(f'[{i[0]}] {i[1]}')
+
+                try:
+
+                    command_line = input(f'\n{Fore.RED}Select Template Number >> {Fore.GREEN}')
+                    selected_name = do_sql(f'select * from template_list where no ={int(command_line)}')
+                    clear_console()
+                    banner()
+                    show_template(selected_name)
+                    return
+
+                except:
+                    pass
+
+            if args == '--settings' or args == '-s':
+                lists = do_sql('select * from settings')
+                print(f'%-5s%-20s%-30s' % ('no', 'type', 'text'))
+                for i in lists:
+                    print(f'{Fore.GREEN}%-5s{Fore.YELLOW}%-20s{Fore.BLUE}%-30s' % (i[0], i[1], i[2]))
+                return
+        if len(command_line_list) == 3:
+            if args == '--templates' or args == '-t':
+                selected_name = do_sql(f'select * from template_list where no ={int(command_line_list[2])}')
+                clear_console()
+                banner()
                 show_template(selected_name)
                 return
-            except:
-                pass
-
-        if args == 'settings' or args == '2':
-            lists = do_sql('select * from settings')
-            print(f'%-5s%-20s%-30s' % ('no', 'type', 'text'))
-            for i in lists:
-                print(f'{Fore.GREEN}%-5s{Fore.YELLOW}%-20s{Fore.BLUE}%-30s' % (i[0], i[1], i[2]))
-            return
 
         show_help()
 
@@ -85,7 +114,7 @@ def show(command_line: str):
         show_help()
 
 
-def help():
+def main_help():
     print('help')
 
 
@@ -94,7 +123,7 @@ def exit():
 
 
 def clear_console():
-    command = 'clear'
+    __command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
-        command = 'cls'
-    os.system(command)
+        __command = 'cls'
+    os.system(__command)
