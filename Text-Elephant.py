@@ -1,14 +1,8 @@
-import os
+from core.banner import banner
+from core.console import clear_console
+from core.console import command
 
-from core.ini import *
+clear_console()
 
-# Check config file
-
-if os.path.isfile('./Settings.ini') is False:
-    config_generator()
-else:
-    # TODO: check config file
-    pass
-
-while True:
-    show_menu()
+banner()
+command()
