@@ -23,7 +23,7 @@ def __print_menu(menu: dict):
 def __status_bar():
     print(f"{do_sql(query_text='select * from settings')}")
     print(
-        f'{Fore.YELLOW} ========================================================================================================')
+        f'{Fore.YELLOW} =======================================================================================================')
 
 
 def next_page(menu: dict):
