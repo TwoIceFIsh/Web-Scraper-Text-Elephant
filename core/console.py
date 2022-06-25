@@ -53,7 +53,7 @@ def command():
 
 def show_help():
     __format = f'{Fore.GREEN}%-5s{Fore.YELLOW}%-10s{Fore.BLUE}%-30s{Fore.BLUE}%-30s'
-    print(f'[{Fore.BLACK}ex. show -t 1, show --settings]')
+    print(f'[{Fore.WHITE}ex. show -t 1, show --settings]')
     print(f'{Fore.RED}%-5s%-10s%-30s%-30s' % ('no', 'commands', 'args', 'text'))
     print(__format % ('1', 'show', '-t, --templates, [n]', 'show templates'))
     print(__format % ('2', 'show ', '-s, --settings', 'show settings'))
