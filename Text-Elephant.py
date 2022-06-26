@@ -29,7 +29,7 @@ def call_py(command_line: str):
         after_list[i[0]] = i[1].split('.')[0]
     after_list.remove('__init__')
     after_list.remove('__pycache__')
-    print(f'choose command : {sorted(after_list)}')
+    print(f'Choose command : {sorted(after_list)}')
 
 
 while True:
