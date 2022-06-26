@@ -14,13 +14,19 @@ def banner():
 Made {Fore.RED}♥{Fore.GREEN} by Aiden Lee(@Twoicefish) {Fore.CYAN}''')
 
 
+__command = 'clear'
+if os.name in ('nt', 'dos'):
+    __command = 'cls'
+
+os.system(__command)
+banner()
+
+
 def cls():
     __command = 'clear'
+
     if os.name in ('nt', 'dos'):
         __command = 'cls'
-
+    
     os.system(__command)
     banner()
-
-
-cls()
