@@ -87,6 +87,8 @@ def start():
                 new_value = input(f'{Fore.RED}New Value > {Fore.GREEN}')
 
                 if selected_option == '2':
+                    if len(new_value) == 0:
+                        return
                     new_value = new_value.strip()
 
                     new_value = re.sub(f'[^a-zA-z0-9.]+', '', new_value)
