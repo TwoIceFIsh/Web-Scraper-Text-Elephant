@@ -4,8 +4,6 @@ from colorama import Fore
 
 from command.cls import cls
 
-cls()
-
 
 def call_py(command_line: str):
     command_list = command_line.split()
@@ -21,17 +19,18 @@ def call_py(command_line: str):
                 os.system(f'python ./command/{py_name}.py {args}')
                 return
             else:
+                cls()
                 os.system(f'python ./command/{py_name}.py -h')
                 return
 
-    show_commads()
+    show_commands()
 
 
-def show_commads():
+def show_commands():
     after_list = os.listdir('./command')
     for i in enumerate(after_list):
         after_list[i[0]] = i[1].split('.')[0]
-    after_list.remove('__init__')
+
     after_list.remove('core')
     after_list.remove('database')
     after_list.remove('tools')
@@ -39,12 +38,13 @@ def show_commads():
     print(f'Choose command : {sorted(after_list)}')
 
 
+cls()
 while True:
     command_text = input(f'{Fore.RED}Text-Elephant >> {Fore.GREEN}')
     try:
         if command_text.split()[0] == 'quit' or command_text.split()[0] == 'exit':
             quit()
     except IndexError:
-        show_commads()
+        show_commands()
         continue
     call_py(command_text)
